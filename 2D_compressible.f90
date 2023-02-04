@@ -35,7 +35,7 @@ program navierstokes
     
       ! AB2 temporal scheme itemp=1
       ! RK3 temporal scheme itemp=2
-      itemp=1
+      itemp=2
     
     
       ! Subroutine for the initialisation of the variables 
@@ -504,16 +504,25 @@ program navierstokes
       integer :: i,j,nx,ny,ns,k 
     !	
     !coefficient for RK sub-time steps
-    !!        coef(1,1)=XXX
-    !!        coef(1,2)=XXX
-    !!        coef(1,3)=XXX
-    !!        coef(2,1)=XXX
-    !!        coef(2,2)=XXX
-    !!        coef(2,3)=XXX
+      coef(1,1)=8./15*dlt
+      coef(1,2)=5./12*dlt
+      coef(1,3)=3./4*dlt
+      coef(2,1)=0
+      coef(2,2)=-17./60*dlt
+      coef(2,3)=-5./12*dlt
     
       do j=1,ny
          do i=1,nx
-    !!
+            rho(i,j)=rho(i,j)+fro(i,j)*coef(1,k)+gro(i,j)*coef(2,k)
+            gro(i,j)=fro(i,j)
+            rou(i,j)=rou(i,j)+fru(i,j)*coef(1,k)+gru(i,j)*coef(2,k)
+            gru(i,j)=fru(i,j)
+            rov(i,j)=rov(i,j)+frv(i,j)*coef(1,k)+grv(i,j)*coef(2,k)
+            grv(i,j)=frv(i,j)
+            roe(i,j)=roe(i,j)+fre(i,j)*coef(1,k)+gre(i,j)*coef(2,k)
+            gre(i,j)=fre(i,j)
+            scp(i,j)=scp(i,j)+ftp(i,j)*coef(1,k)+gtp(i,j)*coef(2,k)
+            gtp(i,j)=ftp(i,j)
          enddo
       enddo
     
