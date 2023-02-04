@@ -390,7 +390,7 @@ program navierstokes
       dly=yly/ny
       udy=1./(12.*dly*dly)
       do i=1,nx
-         dfi(i,1)=udy*(-phi(i,ny-1)+16.*phi(i,ny)-30.*phi(i,1,)+16.*phi(i,2)-phi(i,3))
+         dfi(i,1)=udy*(-phi(i,ny-1)+16.*phi(i,ny)-30.*phi(i,1)+16.*phi(i,2)-phi(i,3))
          dfi(i,2)=udy*(-phi(i,ny)+16.*phi(i,1)-30.*phi(i,2)+16.*phi(i,3)-phi(i,4))
          do j=3,ny-1
             dfi(i,j)=udy*(-phi(i,j-2)+16.*phi(i,j-1)-30.*phi(i,j)+16.*phi(i,j+1)-phi(i,j+2))
@@ -419,8 +419,8 @@ program navierstokes
       real(8) :: utt,qtt,xmu,eta,dmu,xlx,yly,xba,xkt
       integer :: i,j,nx,ny
     
-      call derix(rou,nx,ny,tb1,xlx)
-      call deriy(rov,nx,ny,tb2,yly)
+      call derix4(rou,nx,ny,tb1,xlx)
+      call deriy4(rov,nx,ny,tb2,yly)
       do j=1,ny
          do i=1,nx
             fro(i,j)=-tb1(i,j)-tb2(i,j)
@@ -434,13 +434,13 @@ program navierstokes
          enddo
       enddo
         
-      call derix(pre,nx,ny,tb3,xlx)
-      call derix(tb1,nx,ny,tb4,xlx)
-      call deriy(tb2,nx,ny,tb5,yly)
-      call derxx(uuu,nx,ny,tb6,xlx)
-      call deryy(uuu,nx,ny,tb7,yly)
-      call derix(vvv,nx,ny,tb8,xlx)
-      call deriy(tb8,nx,ny,tb9,yly)
+      call derix4(pre,nx,ny,tb3,xlx)
+      call derix4(tb1,nx,ny,tb4,xlx)
+      call deriy4(tb2,nx,ny,tb5,yly)
+      call derxx4(uuu,nx,ny,tb6,xlx)
+      call deryy4(uuu,nx,ny,tb7,yly)
+      call derix4(vvv,nx,ny,tb8,xlx)
+      call deriy4(tb8,nx,ny,tb9,yly)
       utt=1./3
       qtt=4./3
       do j=1,ny
@@ -458,13 +458,13 @@ program navierstokes
          enddo
       enddo
         
-      call deriy(pre,nx,ny,tb3,yly)
-      call derix(tb1,nx,ny,tb4,xlx)
-      call deriy(tb2,nx,ny,tb5,yly)
-      call derxx(vvv,nx,ny,tb6,xlx)
-      call deryy(vvv,nx,ny,tb7,yly)
-      call derix(uuu,nx,ny,tb8,xlx)
-      call deriy(tb8,nx,ny,tb9,yly)
+      call deriy4(pre,nx,ny,tb3,yly)
+      call derix4(tb1,nx,ny,tb4,xlx)
+      call deriy4(tb2,nx,ny,tb5,yly)
+      call derxx4(vvv,nx,ny,tb6,xlx)
+      call deryy4(vvv,nx,ny,tb7,yly)
+      call derix4(uuu,nx,ny,tb8,xlx)
+      call deriy4(tb8,nx,ny,tb9,yly)
       do j=1,ny
          do i=1,nx
             tbb(i,j)=xmu*(tb6(i,j)+qtt*tb7(i,j)+utt*tb9(i,j))
@@ -475,10 +475,10 @@ program navierstokes
     !
     !Equation for the tempature
     !
-      call derix(scp,nx,ny,tb1,xlx)
-      call deriy(scp,nx,ny,tb2,yly)
-      call derxx(scp,nx,ny,tb3,xlx)
-      call deryy(scp,nx,ny,tb4,yly)
+      call derix4(scp,nx,ny,tb1,xlx)
+      call deriy4(scp,nx,ny,tb2,yly)
+      call derxx4(scp,nx,ny,tb3,xlx)
+      call deryy4(scp,nx,ny,tb4,yly)
     
       do j=1,ny
          do i=1,nx
@@ -488,10 +488,10 @@ program navierstokes
          enddo
       enddo
       
-      call derix(uuu,nx,ny,tb1,xlx)
-      call deriy(vvv,nx,ny,tb2,yly)
-      call deriy(uuu,nx,ny,tb3,yly)
-      call derix(vvv,nx,ny,tb4,xlx)
+      call derix4(uuu,nx,ny,tb1,xlx)
+      call deriy4(vvv,nx,ny,tb2,yly)
+      call deriy4(uuu,nx,ny,tb3,yly)
+      call derix4(vvv,nx,ny,tb4,xlx)
       dmu=2./3*xmu
       do j=1,ny
          do i=1,nx
@@ -511,12 +511,12 @@ program navierstokes
          enddo
       enddo
     
-      call derix(tb1,nx,ny,tb5,xlx)
-      call derix(tb2,nx,ny,tb6,xlx)
-      call deriy(tb3,nx,ny,tb7,yly)
-      call deriy(tb4,nx,ny,tb8,yly)
-      call derxx(tmp,nx,ny,tb9,xlx)
-      call deryy(tmp,nx,ny,tba,yly)
+      call derix4(tb1,nx,ny,tb5,xlx)
+      call derix4(tb2,nx,ny,tb6,xlx)
+      call deriy4(tb3,nx,ny,tb7,yly)
+      call deriy4(tb4,nx,ny,tb8,yly)
+      call derxx4(tmp,nx,ny,tb9,xlx)
+      call deryy4(tmp,nx,ny,tba,yly)
        
       do j=1,ny
          do i=1,nx
