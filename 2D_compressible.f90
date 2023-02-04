@@ -45,7 +45,7 @@ program navierstokes
       !we need to define the time step
       dx=xlx/nx !mesh size in x
       dy=yly/ny !mesh sixe in y
-      CFL=0.25  !CFL number for time step
+      CFL=0.75  !CFL number for time step
       dlt=CFL*dlx
       print *,'The time step of the simulation is',dlt
       
