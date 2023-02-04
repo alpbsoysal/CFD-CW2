@@ -45,7 +45,7 @@ program navierstokes
       !we need to define the time step
       dx=xlx/nx !mesh size in x
       dy=yly/ny !mesh sixe in y
-      CFL=0.75  !CFL number for time step
+      CFL=0.25  !CFL number for time step
       dlt=CFL*dlx
       print *,'The time step of the simulation is',dlt
       
@@ -299,9 +299,19 @@ program navierstokes
       real(8),dimension(nx,ny) :: phi,dfi
       real(8) :: dlx,xlx,udx
       integer :: i,j,nx,ny
-        
-    
-        
+      
+      dlx=xlx/nx
+      udx=1./(12.*dlx)
+      do j=1,ny
+         dfi(1,j)=udx*(phi(nx-1,j)-8.*phi(nx,j)+8.*phi(2,j)-phi(3,j))
+         dfi(2,j)=udx*(phi(nx,j)-8.*phi(1,j)+8.*phi(3,j)-phi(4,j))
+         do i=3,nx-1
+            dfi(i,j)=udx*(phi(i-2,j)-8.*phi(i-1,j)+8.*phi(i+1,j)-phi(i+2,j))
+         enddo
+         dfi(nx-1,j)=udx*(phi(nx-3,j)-8.*phi(nx-2,j)+8.*phi(nx,j)-phi(1,j))
+         dfi(nx,j)=udx*(phi(nx-2,j)-8.*phi(nx-1,j)+8.*phi(1,j)-phi(2,j))
+      enddo
+      
       return
     end subroutine derix4
     !############################################
@@ -319,7 +329,17 @@ program navierstokes
       real(8) :: dly,yly,udy
       integer :: i,j,nx,ny
         
-    
+      dly=yly/ny
+      udy=1./(12.*dly)
+      do i=1,nx
+         dfi(i,1)=udy*(phi(i,ny-1)-8.*phi(i,ny)+8.*phi(i,2)-phi(i,3))
+         dfi(i,2)=udy*(phi(i,ny)-8.*phi(i,1)+8.*phi(i,3)-phi(i,4))
+         do j=3,ny-1
+            dfi(i,j)=udy*(phi(i,j-2)-8.*phi(i,j-1)+8.*phi(i,j+1)-phi(i,j+2))
+         enddo
+         dfi(i,ny-1)=udy*(phi(i,ny-3)-8.*phi(i,ny-2)+8.*phi(i,ny)-phi(i,1))
+         dfi(i,ny)=udy*(phi(i,ny-2)-8.*phi(i,ny-1)+8.*phi(i,1)-phi(i,2))
+      enddo
         
       return
     end subroutine deriy4
@@ -338,7 +358,17 @@ program navierstokes
       real(8) :: dlx,xlx,udx
       integer :: i,j,nx,ny
     
-    
+      dlx=xlx/nx
+      udx=1./(12.*dlx*dlx)
+      do j=1,ny
+         dfi(1,j)=udx*(-phi(nx-1,j)+16.*phi(nx,j)-30.*phi(1,j)+16.*phi(2,j)-phi(3,j))
+         dfi(2,j)=udx*(-phi(nx,j)+16.*phi(1,j)-30.*phi(2,j)+16.*phi(3,j)-phi(4,j))
+         do i=3,nx-1
+            dfi(i,j)=udx*(-phi(i-2,j)+16.*phi(i-1,j)-30.*phi(i,j)+16.*phi(i+1,j)-phi(i+2,j))
+         enddo
+         dfi(nx-1,j)=udx*(-phi(nx-3,j)+16.*phi(nx-2,j)-30.*phi(nx-1,j)+16.*phi(nx,j)-phi(1,j))
+         dfi(nx,j)=udx*(-phi(nx-2,j)+16.*phi(nx-1,j)-30.*phi(nx,j)+16.*phi(1,j)-phi(2,j))
+      enddo
         
       return
     end subroutine derxx4
@@ -357,7 +387,17 @@ program navierstokes
       real(8) :: dly,yly,udy
       integer :: i,j,nx,ny
     
-    
+      dly=yly/ny
+      udy=1./(12.*dly*dly)
+      do i=1,nx
+         dfi(i,1)=udy*(-phi(i,ny-1)+16.*phi(i,ny)-30.*phi(i,1,)+16.*phi(i,2)-phi(i,3))
+         dfi(i,2)=udy*(-phi(i,ny)+16.*phi(i,1)-30.*phi(i,2)+16.*phi(i,3)-phi(i,4))
+         do j=3,ny-1
+            dfi(i,j)=udy*(-phi(i,j-2)+16.*phi(i,j-1)-30.*phi(i,j)+16.*phi(i,j+1)-phi(i,j+2))
+         enddo
+         dfi(i,ny-1)=udy*(-phi(i,ny-3)+16.*phi(i,ny-2)-30.*phi(i,ny-1)+16.*phi(i,ny)-phi(i,1))
+         dfi(i,ny)=udy*(-phi(i,ny-2)+16.*phi(i,ny-1)-30.*phi(i,ny)+16.*phi(i,1)-phi(i,2))
+      enddo
         
       return
     end subroutine deryy4
