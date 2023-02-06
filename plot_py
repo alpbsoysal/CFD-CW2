@@ -11,13 +11,13 @@ import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.colors as colors
 
-nx=387
-ny=387
-lx=12
+nx=513
+ny=257
+lx=20
 ly=12
 
-X=np.linspace(0,12,num=nx)
-Y=np.linspace(0,12,num=ny)
+X=np.linspace(0,lx,num=nx)
+Y=np.linspace(0,ly,num=ny)
 cmap=plt.get_cmap('jet')
 
 #colorbar min and max
@@ -33,8 +33,8 @@ for i in range(4):
 
     #reshape 3 columns to 2D matrix (nx,ny)
     #convert x and y to nx and ny
-    vort[:,0]=vort[:,0]*387/12
-    vort[:,1]=vort[:,1]*387/12
+    vort[:,0]=vort[:,0]*nx/lx
+    vort[:,1]=vort[:,1]*ny/ly
     vort2D=np.zeros((nx,ny))
     for index in range(a):
         vort2D[int(vort[index,0]),int(vort[index,1])]=vort[index,2]
@@ -46,11 +46,11 @@ for i in range(4):
     ax.set_xlabel('X',fontsize=fontsize)
     ax.set_ylabel('Y',fontsize=fontsize)
     plt.tick_params(labelsize=fontsize)
-    plt.gca().set_aspect('auto')
+    plt.gca().set_aspect(1)
     plt.title(r"vort000"+str(i+1),fontsize=fontsize)
    
     cb=plt.colorbar(im,ax=ax)
     cb.ax.tick_params(labelsize=fontsize-2)
-    plt.grid(b=True, which='major', color='#666666', linestyle='-')
+    plt.grid(visible=True, which='major', color='#666666', linestyle='-')
     plt.savefig('vort2D_000'+str(i+1)+'.png')
 
